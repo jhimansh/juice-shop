@@ -1,0 +1,40 @@
+name: NodeGoat-Deploy
+on:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+
+        with:
+          node-version: "16"
+    
+      - name: do npm install
+        run: npm install
+      
+      - name: install protectonce
+        run: npm install @protectonce/agent
+              
+      - name: Check out repository
+        uses: actions/checkout@v2
+        
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+
+
+
+
+
+      
